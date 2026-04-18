@@ -17,7 +17,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocationsIndexRouteImport } from './routes/locations.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
+import { Route as AdminMenusRouteImport } from './routes/admin.menus'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminLocationsRouteImport } from './routes/admin.locations'
+import { Route as AdminLinksRouteImport } from './routes/admin.links'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
+import { Route as AdminFilesRouteImport } from './routes/admin.files'
+import { Route as AdminAboutRouteImport } from './routes/admin.about'
 
 const MenusRoute = MenusRouteImport.update({
   id: '/menus',
@@ -59,9 +67,49 @@ const LocationsSlugRoute = LocationsSlugRouteImport.update({
   path: '/locations/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/admin/messages',
+  path: '/admin/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMenusRoute = AdminMenusRouteImport.update({
+  id: '/admin/menus',
+  path: '/admin/menus',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLocationsRoute = AdminLocationsRouteImport.update({
+  id: '/admin/locations',
+  path: '/admin/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLinksRoute = AdminLinksRouteImport.update({
+  id: '/admin/links',
+  path: '/admin/links',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/admin/gallery',
+  path: '/admin/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFilesRoute = AdminFilesRouteImport.update({
+  id: '/admin/files',
+  path: '/admin/files',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutRoute = AdminAboutRouteImport.update({
+  id: '/admin/about',
+  path: '/admin/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -71,7 +119,15 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/files': typeof AdminFilesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/links': typeof AdminLinksRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/menus': typeof AdminMenusRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/locations/': typeof LocationsIndexRoute
@@ -82,7 +138,15 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/files': typeof AdminFilesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/links': typeof AdminLinksRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/menus': typeof AdminMenusRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/locations': typeof LocationsIndexRoute
@@ -94,7 +158,15 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/about': typeof AdminAboutRoute
+  '/admin/files': typeof AdminFilesRoute
+  '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/links': typeof AdminLinksRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/menus': typeof AdminMenusRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/locations/': typeof LocationsIndexRoute
@@ -107,7 +179,15 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/about'
+    | '/admin/files'
+    | '/admin/gallery'
+    | '/admin/links'
+    | '/admin/locations'
     | '/admin/login'
+    | '/admin/menus'
+    | '/admin/messages'
+    | '/admin/settings'
     | '/locations/$slug'
     | '/admin/'
     | '/locations/'
@@ -118,7 +198,15 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/about'
+    | '/admin/files'
+    | '/admin/gallery'
+    | '/admin/links'
+    | '/admin/locations'
     | '/admin/login'
+    | '/admin/menus'
+    | '/admin/messages'
+    | '/admin/settings'
     | '/locations/$slug'
     | '/admin'
     | '/locations'
@@ -129,7 +217,15 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/about'
+    | '/admin/files'
+    | '/admin/gallery'
+    | '/admin/links'
+    | '/admin/locations'
     | '/admin/login'
+    | '/admin/menus'
+    | '/admin/messages'
+    | '/admin/settings'
     | '/locations/$slug'
     | '/admin/'
     | '/locations/'
@@ -141,7 +237,15 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   MenusRoute: typeof MenusRoute
+  AdminAboutRoute: typeof AdminAboutRoute
+  AdminFilesRoute: typeof AdminFilesRoute
+  AdminGalleryRoute: typeof AdminGalleryRoute
+  AdminLinksRoute: typeof AdminLinksRoute
+  AdminLocationsRoute: typeof AdminLocationsRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminMenusRoute: typeof AdminMenusRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   LocationsSlugRoute: typeof LocationsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   LocationsIndexRoute: typeof LocationsIndexRoute
@@ -205,11 +309,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocationsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/admin/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/menus': {
+      id: '/admin/menus'
+      path: '/admin/menus'
+      fullPath: '/admin/menus'
+      preLoaderRoute: typeof AdminMenusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/locations': {
+      id: '/admin/locations'
+      path: '/admin/locations'
+      fullPath: '/admin/locations'
+      preLoaderRoute: typeof AdminLocationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/links': {
+      id: '/admin/links'
+      path: '/admin/links'
+      fullPath: '/admin/links'
+      preLoaderRoute: typeof AdminLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/files': {
+      id: '/admin/files'
+      path: '/admin/files'
+      fullPath: '/admin/files'
+      preLoaderRoute: typeof AdminFilesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about': {
+      id: '/admin/about'
+      path: '/admin/about'
+      fullPath: '/admin/about'
+      preLoaderRoute: typeof AdminAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -221,7 +381,15 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   MenusRoute: MenusRoute,
+  AdminAboutRoute: AdminAboutRoute,
+  AdminFilesRoute: AdminFilesRoute,
+  AdminGalleryRoute: AdminGalleryRoute,
+  AdminLinksRoute: AdminLinksRoute,
+  AdminLocationsRoute: AdminLocationsRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminMenusRoute: AdminMenusRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   LocationsSlugRoute: LocationsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   LocationsIndexRoute: LocationsIndexRoute,
@@ -229,3 +397,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
