@@ -14,16 +14,413 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      about_content: {
+        Row: {
+          headline: string | null
+          id: number
+          image_urls: Json | null
+          intro: string | null
+          story: string | null
+          updated_at: string
+        }
+        Insert: {
+          headline?: string | null
+          id?: number
+          image_urls?: Json | null
+          intro?: string | null
+          story?: string | null
+          updated_at?: string
+        }
+        Update: {
+          headline?: string | null
+          id?: number
+          image_urls?: Json | null
+          intro?: string | null
+          story?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_read: boolean
+          location_id: string | null
+          message: string
+          name: string
+          phone: string | null
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_read?: boolean
+          location_id?: string | null
+          message: string
+          name: string
+          phone?: string | null
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_read?: boolean
+          location_id?: string | null
+          message?: string
+          name?: string
+          phone?: string | null
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_messages_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      files: {
+        Row: {
+          category: string | null
+          created_at: string
+          display_order: number
+          external_url: string | null
+          file_url: string | null
+          id: string
+          is_active: boolean
+          location_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          external_url?: string | null
+          file_url?: string | null
+          id?: string
+          is_active?: boolean
+          location_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          external_url?: string | null
+          file_url?: string | null
+          id?: string
+          is_active?: boolean
+          location_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gallery_images: {
+        Row: {
+          alt_text: string | null
+          caption: string | null
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string
+          is_active: boolean
+          is_featured: boolean
+          location_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url: string
+          is_active?: boolean
+          is_featured?: boolean
+          location_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          is_featured?: boolean
+          location_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      links: {
+        Row: {
+          category: string | null
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          label: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          label: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          label?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      locations: {
+        Row: {
+          address: string | null
+          area: string | null
+          booking_link: string | null
+          created_at: string
+          description: string | null
+          display_order: number
+          email: string | null
+          gallery_image_urls: Json | null
+          hero_image_url: string | null
+          id: string
+          is_active: boolean
+          maps_link: string | null
+          name: string
+          opening_hours: Json | null
+          phone: string | null
+          postcode: string | null
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          area?: string | null
+          booking_link?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          email?: string | null
+          gallery_image_urls?: Json | null
+          hero_image_url?: string | null
+          id?: string
+          is_active?: boolean
+          maps_link?: string | null
+          name: string
+          opening_hours?: Json | null
+          phone?: string | null
+          postcode?: string | null
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          area?: string | null
+          booking_link?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          email?: string | null
+          gallery_image_urls?: Json | null
+          hero_image_url?: string | null
+          id?: string
+          is_active?: boolean
+          maps_link?: string | null
+          name?: string
+          opening_hours?: Json | null
+          phone?: string | null
+          postcode?: string | null
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      menus: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          display_order: number
+          external_url: string | null
+          id: string
+          is_active: boolean
+          is_featured: boolean
+          location_id: string | null
+          pdf_url: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          external_url?: string | null
+          id?: string
+          is_active?: boolean
+          is_featured?: boolean
+          location_id?: string | null
+          pdf_url?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          external_url?: string | null
+          id?: string
+          is_active?: boolean
+          is_featured?: boolean
+          location_id?: string | null
+          pdf_url?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menus_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_settings: {
+        Row: {
+          address: string | null
+          brand_description: string | null
+          brand_tagline: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          cta_text: string | null
+          enquiry_text: string | null
+          favicon_url: string | null
+          footer_text: string | null
+          hours_summary: string | null
+          id: number
+          logo_url: string | null
+          map_embed_url: string | null
+          social_links: Json | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          brand_description?: string | null
+          brand_tagline?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          cta_text?: string | null
+          enquiry_text?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          hours_summary?: string | null
+          id?: number
+          logo_url?: string | null
+          map_embed_url?: string | null
+          social_links?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          brand_description?: string | null
+          brand_tagline?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          cta_text?: string | null
+          enquiry_text?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          hours_summary?: string | null
+          id?: number
+          logo_url?: string | null
+          map_embed_url?: string | null
+          social_links?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +547,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor"],
+    },
   },
 } as const
