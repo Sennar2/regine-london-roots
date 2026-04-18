@@ -35,6 +35,12 @@ export const Route = createRootRoute({
       { property: "og:site_name", content: "Reginè Pizzeria" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Reginè Pizzeria — Southern Italian warmth, served in London" },
+      { name: "twitter:title", content: "Reginè Pizzeria — Southern Italian warmth, served in London" },
+      { property: "og:description", content: "Reginè Pizzeria — a Southern Italian family pizzeria in London. Authentic wood-fired pizza, simple ingredients and proper hospitality." },
+      { name: "twitter:description", content: "Reginè Pizzeria — a Southern Italian family pizzeria in London. Authentic wood-fired pizza, simple ingredients and proper hospitality." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/zLLyx6deLRPOUX76f0u75YwyLiu1/social-images/social-1776506966914-Regine_-_Bussiness_Card_-_Front.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/zLLyx6deLRPOUX76f0u75YwyLiu1/social-images/social-1776506966914-Regine_-_Bussiness_Card_-_Front.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
