@@ -38,7 +38,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex h-16 items-center border-b border-border px-5"><Logo className="h-9 w-auto" /></div>
         <nav className="space-y-1 p-3">
           {NAV.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: !!n.exact }} activeProps={{ className: "bg-primary/10 text-primary" }} className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary">
+            <Link key={n.to} to={n.to as string} activeOptions={{ exact: !!n.exact }} activeProps={{ className: "bg-primary/10 text-primary" }} className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary">
               <n.icon className="h-4 w-4" /> {n.label}
             </Link>
           ))}
@@ -61,7 +61,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         {/* mobile nav */}
         <nav className="fixed inset-x-0 bottom-0 z-30 flex justify-around border-t border-border bg-background py-2 md:hidden">
           {NAV.slice(0, 5).map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: !!n.exact }} activeProps={{ className: "text-primary" }} className="flex flex-col items-center text-[10px] text-muted-foreground">
+            <Link key={n.to} to={n.to as string} activeOptions={{ exact: !!n.exact }} activeProps={{ className: "text-primary" }} className="flex flex-col items-center text-[10px] text-muted-foreground">
               <n.icon className="mb-1 h-5 w-5" />{n.label}
             </Link>
           ))}
