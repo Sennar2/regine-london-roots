@@ -111,7 +111,7 @@ function LocationDetail() {
             <div className="rounded-2xl border border-border bg-card p-6">
               <h3 className="flex items-center gap-2 font-serif text-xl"><Clock className="h-4 w-4 text-primary" /> Opening hours</h3>
               <ul className="mt-4 divide-y divide-border text-sm">
-                {(l.opening_hours ?? []).map((h) => (
+                {((l.opening_hours ?? []) as { day: string; hours: string }[]).map((h) => (
                   <li key={h.day} className="flex justify-between py-2"><span className="text-muted-foreground">{h.day}</span><span>{h.hours}</span></li>
                 ))}
               </ul>
@@ -131,7 +131,7 @@ function LocationDetail() {
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
             <h2 className="font-serif text-3xl">Inside {l.name}</h2>
             <div className="gallery-cols mt-8">
-              {l.gallery_image_urls.map((url, i) => (
+              {(l.gallery_image_urls as string[]).map((url: string, i: number) => (
                 <img key={i} src={url} alt={`${l.name} interior ${i + 1}`} className="w-full rounded-xl object-cover" loading="lazy" />
               ))}
             </div>
