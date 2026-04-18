@@ -6,7 +6,8 @@ import { Logo } from "@/components/site/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/lib/admin-auth";
 
-const NAV = [
+type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const NAV: NavItem[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/locations", label: "Locations", icon: MapPin },
   { to: "/admin/menus", label: "Menus", icon: UtensilsCrossed },
@@ -16,7 +17,7 @@ const NAV = [
   { to: "/admin/about", label: "About", icon: Info },
   { to: "/admin/settings", label: "Site & Branding", icon: Settings },
   { to: "/admin/messages", label: "Messages", icon: Mail },
-] as const;
+];
 
 export function AdminLayout({ children }: { children: ReactNode }) {
   const { loading, session, isAdmin } = useAdminAuth();
