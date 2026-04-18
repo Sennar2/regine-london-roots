@@ -15,7 +15,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocationsIndexRouteImport } from './routes/locations.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 
 const MenusRoute = MenusRouteImport.update({
   id: '/menus',
@@ -47,9 +49,19 @@ const LocationsIndexRoute = LocationsIndexRouteImport.update({
   path: '/locations/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocationsSlugRoute = LocationsSlugRouteImport.update({
   id: '/locations/$slug',
   path: '/locations/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -59,7 +71,9 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/login': typeof AdminLoginRoute
   '/locations/$slug': typeof LocationsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/locations/': typeof LocationsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,7 +82,9 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/login': typeof AdminLoginRoute
   '/locations/$slug': typeof LocationsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/locations': typeof LocationsIndexRoute
 }
 export interface FileRoutesById {
@@ -78,7 +94,9 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/admin/login': typeof AdminLoginRoute
   '/locations/$slug': typeof LocationsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/locations/': typeof LocationsIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,7 +107,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/login'
     | '/locations/$slug'
+    | '/admin/'
     | '/locations/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -98,7 +118,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/login'
     | '/locations/$slug'
+    | '/admin'
     | '/locations'
   id:
     | '__root__'
@@ -107,7 +129,9 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/admin/login'
     | '/locations/$slug'
+    | '/admin/'
     | '/locations/'
   fileRoutesById: FileRoutesById
 }
@@ -117,7 +141,9 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   MenusRoute: typeof MenusRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   LocationsSlugRoute: typeof LocationsSlugRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   LocationsIndexRoute: typeof LocationsIndexRoute
 }
 
@@ -165,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocationsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/locations/$slug': {
       id: '/locations/$slug'
       path: '/locations/$slug'
       fullPath: '/locations/$slug'
       preLoaderRoute: typeof LocationsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -181,9 +221,20 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   MenusRoute: MenusRoute,
+  AdminLoginRoute: AdminLoginRoute,
   LocationsSlugRoute: LocationsSlugRoute,
+  AdminIndexRoute: AdminIndexRoute,
   LocationsIndexRoute: LocationsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
