@@ -119,7 +119,7 @@ function LocationDetail() {
           <div className="space-y-8 lg:col-span-2">
             {(l.full_description || l.description) && (
               <div className="space-y-4 text-lg leading-relaxed text-foreground/90 text-pretty">
-                {(l.full_description ?? l.description ?? "").split(/\n\n+/).map((p, i) => (
+                {(l.full_description ?? l.description ?? "").split(/\n\n+/).map((p: string, i: number) => (
                   <p key={i}>{p}</p>
                 ))}
               </div>
