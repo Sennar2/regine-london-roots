@@ -28,3 +28,13 @@ export function publicUrl(bucket: string, path: string) {
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
 }
+
+/** Pick a social URL (case-insensitive) from site_settings.social_links */
+export function getSocial(links: Record<string, string> | null | undefined, key: string): string | null {
+  if (!links) return null;
+  const lower = key.toLowerCase();
+  for (const [k, v] of Object.entries(links)) {
+    if (k.toLowerCase() === lower && typeof v === "string" && v.trim()) return v;
+  }
+  return null;
+}

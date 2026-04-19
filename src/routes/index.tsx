@@ -40,26 +40,31 @@ function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10">
-          <img src={heroPizza} alt="" className="h-full w-full object-cover opacity-90" width={1600} height={1200} />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-charcoal/30 via-brand-charcoal/40 to-brand-charcoal/85" />
+          <img src={heroPizza} alt="" className="h-full w-full object-cover object-center" width={1600} height={1200} />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-charcoal/55 via-brand-charcoal/35 to-brand-charcoal/75" />
         </div>
-        <div className="mx-auto flex min-h-[78vh] max-w-7xl flex-col justify-end px-4 pb-16 pt-28 text-brand-cream sm:px-6 lg:px-8">
-          <p className="mb-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-brand-gold">
-            <span className="h-px w-8 bg-brand-gold" /> Family pizzeria · London
-          </p>
-          <h1 className="font-serif text-4xl font-semibold leading-[1.05] text-balance sm:text-6xl md:text-7xl">
-            {tagline}
-          </h1>
-          <p className="mt-6 max-w-xl text-base text-brand-cream/85 sm:text-lg text-pretty">
-            A neighbourhood pizzeria with Southern Italian roots. Hand-stretched dough, simple ingredients, and a welcome that feels like home.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link to="/menus">View Menus <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-brand-cream/40 bg-transparent text-brand-cream hover:bg-brand-cream/10 hover:text-brand-cream">
-              <Link to="/locations">Find Us</Link>
-            </Button>
+        <div className="mx-auto flex min-h-[82vh] max-w-7xl flex-col justify-center px-4 py-24 text-brand-cream sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-brand-gold">
+              <span className="h-px w-10 bg-brand-gold" /> Family pizzeria · London
+            </p>
+            <h1 className="font-serif text-5xl font-semibold leading-[1.02] text-balance sm:text-6xl md:text-7xl lg:text-[5.5rem]">
+              {tagline}
+            </h1>
+            <p className="mt-3 font-serif italic text-lg text-brand-gold/90 sm:text-xl">
+              — first home: Wandsworth
+            </p>
+            <p className="mt-7 max-w-xl text-base text-brand-cream/85 sm:text-lg text-pretty">
+              A neighbourhood pizzeria with Southern Italian roots. Hand-stretched dough, simple ingredients, and a welcome that feels like home.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Button asChild size="xl" variant="default">
+                <Link to="/menus">View Menus <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              </Button>
+              <Button asChild size="xl" variant="onDark">
+                <Link to="/locations">Find Us</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -76,8 +81,8 @@ function HomePage() {
               Reginè was born from long Sunday lunches and the smell of tomato, basil and wood-fired crust. We brought that warmth to London — and built a small pizzeria around it. Every guest is family. Every plate is made the way our grandmothers would expect.
             </p>
             <div className="mt-7">
-              <Button asChild variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary">
-                <Link to="/about">Read our story <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Button asChild variant="outline">
+                <Link to="/about">Read our story <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
             </div>
           </div>
@@ -127,8 +132,8 @@ function HomePage() {
             <h2 className="font-serif text-3xl font-semibold sm:text-4xl">The menu, the way nonna made it.</h2>
             <p className="mt-2 max-w-xl text-brand-cream/80">Wood-fired pizzas, antipasti, dolci and a short list of well-chosen wines.</p>
           </div>
-          <Button asChild size="lg" className="bg-brand-gold text-brand-charcoal hover:bg-brand-gold/90">
-            <Link to="/menus"><UtensilsCrossed className="mr-2 h-4 w-4" /> View Menus</Link>
+          <Button asChild size="lg" variant="gold">
+            <Link to="/menus"><UtensilsCrossed className="mr-1 h-4 w-4" /> View Menus</Link>
           </Button>
         </div>
       </section>
@@ -159,8 +164,8 @@ function HomePage() {
           <h2 className="font-serif text-3xl font-semibold sm:text-4xl text-balance">Come and see us.</h2>
           <p className="mt-4 text-muted-foreground">Booking enquiries, private events, or just to say ciao — we'd love to hear from you.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild className="bg-primary text-primary-foreground"><Link to="/contact">Get in touch</Link></Button>
-            <Button asChild variant="outline" className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"><Link to="/locations">Find us</Link></Button>
+            <Button asChild variant="default"><Link to="/contact">Get in touch</Link></Button>
+            <Button asChild variant="outline"><Link to="/locations">Find us</Link></Button>
           </div>
         </div>
       </section>
