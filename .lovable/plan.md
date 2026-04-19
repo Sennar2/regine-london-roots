@@ -1,104 +1,50 @@
 
+Quick scan: hero currently uses imported `heroPizza` asset and reads `brand_tagline` from `site_settings`. Need to add hero fields to `site_settings`, expose them in admin, and render dynamically on home with a contrast fix.
 
-## Reginè Pizzeria — v1 Launch Polish
+Existing `site_settings` already has `logo_url`, `brand_tagline`, etc. I'll extend it rather than add a new table.
 
-Refining the existing site into a launch-ready, premium hospitality experience. Keeping current structure, brand, admin, and data — extending where needed.
+Hero contrast: current heading is cream on dark image overlay (actually readable), but user reports gold/yellow look — likely the gold accent line + tagline italic feels too light. Plan: keep image with darker overlay, headline in cream (white) with stronger weight, OR switch to cream-bg variant if no image. Per user's explicit ask: heading must use Charcoal #2C2C2C or Reginè Red #B22234, NOT gold/cream. So redesign hero with cream background + dark text by default, with hero image as a side panel rather than full-bleed background. This gives charcoal text on cream — high contrast, premium editorial.
 
-### 1. Database — add ordering/delivery fields to `locations`
+## Plan — Admin-Managed Homepage Hero + Contrast Fix
 
-Migration adds four optional URL columns:
-- `deliveroo_url`, `justeat_url`, `ubereats_url`, `click_collect_url`
-- Plus `is_featured boolean default false` and `full_description text` (separate from short `description`)
+### 1. Database (migration)
+Add to `site_settings`:
+- `hero_image_url text`
+- `hero_eyebrow text` (e.g. "Family pizzeria · London")
+- `hero_headline text`
+- `hero_subheading text`
+- `hero_cta_primary_label text`, `hero_cta_primary_href text`
+- `hero_cta_secondary_label text`, `hero_cta_secondary_href text`
 
-No data loss. Existing rows untouched.
+No data loss. All nullable. Existing `brand_tagline` kept as fallback for `hero_headline`.
 
-### 2. Button system — fix contrast (gold-on-gold issue)
+### 2. Admin — new "Homepage Hero" card in `admin.settings.tsx`
+Fields with FileUpload (bucket: `branding`) for hero image + text inputs for the rest. Includes preview thumbnail and "remove image" button.
 
-Refactor `src/components/ui/button.tsx` variants:
-- `default` (Primary) — Reginè Red bg, cream text
-- `secondary` — cream bg, charcoal text, subtle border
-- `outline` — transparent bg, charcoal text, charcoal border, hover cream tint
-- New `gold` variant — gold bg, **charcoal text** (never gold-on-gold)
-- New `onDark` outline — for use on dark hero overlays (cream border + cream text)
-- Sizes get a true `xl` for hero CTAs; consistent radius & focus ring across all
+### 3. Homepage hero redesign (`src/routes/index.tsx`)
 
-Audit all routes — replace ad-hoc `bg-brand-gold` etc. with proper variants. Fix the homepage menu CTA strip and contact-CTA buttons.
+New editorial split layout (replaces current full-bleed dark hero):
+- **Left**: cream background, charcoal headline (serif, bold, large), gold-accented eyebrow kicker, charcoal-muted subheading, two CTAs (Red primary + outline secondary)
+- **Right**: hero image (admin-managed, fallback to bundled `heroPizza`) in a rounded frame with subtle terracotta motif accent
+- Mobile: stacks image-on-top, text below, all centered
+- Heading uses `text-brand-charcoal` (#2C2C2C), weight 600, tighter leading
+- Eyebrow remains gold but small (already accent-only — passes the "gold as accent only" rule)
+- Removes the gold italic tagline line that read as faint/yellow
 
-### 3. Hero polish (homepage)
+Dynamic content:
+- `hero_headline` → falls back to `brand_tagline` → falls back to "Southern Italian warmth, served in London."
+- `hero_image_url` → falls back to imported `heroPizza`
+- CTAs default to "View Menus" → `/menus` and "Find Us" → `/locations` if not set
 
-- Tighter editorial layout — kicker line, bigger serif headline, refined CTA group
-- Better gradient (less heavy at bottom), proper image positioning
-- Two CTAs: primary "View Menus" + outline-on-dark "Find Us"
-- Improved spacing on mobile (no awkward empty bottom area)
-- Add subtle gold separator/serif italic accent line
+### 4. Site settings type
+Extend `SiteSettings` in `src/lib/site.ts` with the new fields.
 
-### 4. First-load intro animation
+### 5. Files touched
+- **New migration**: adds 7 columns to `site_settings`
+- **Modified**: `src/routes/admin.settings.tsx` (new Hero card), `src/routes/index.tsx` (new hero layout + dynamic data), `src/lib/site.ts` (type)
 
-New component `src/components/site/IntroOverlay.tsx`:
-- Cream full-screen overlay, Reginè logo fades + scales in, subtitle "Southern Italian warmth, served in London." fades up
-- Auto-dismiss after ~1.6s with smooth fade-out, skippable on click/scroll/keypress
-- Uses `sessionStorage` flag `regine_intro_seen` — shows only on first visit per session
-- Mounted in `PublicLayout` (not on `/admin` routes)
-- Respects `prefers-reduced-motion` (instant skip)
-
-### 5. Location detail page — order/delivery CTAs
-
-Render new section "Order online" with cards/buttons for any of: Deliveroo, Just Eat, Uber Eats, Click & Collect (only those that have URLs). Stacked elegantly on mobile, branded but tasteful (no colored vendor logos — clean labelled buttons with external-link icon).
-
-Also: improved hero CTA group, better hours card styling, embedded map (if `maps_link`).
-
-### 6. Admin — Locations Manager improvements
-
-- Add fields for the 4 ordering URLs + `full_description` + `is_featured`
-- Restructure modal into tabbed sections (Basics / Contact & Hours / Media / Ordering & Links / Visibility) for clarity
-- Helpful empty states, URL validation hints
-- Replace raw JSON textarea for opening hours with a friendly day-by-day editor (Mon–Sun rows)
-
-### 7. Hide admin from public
-
-- Remove the "Admin" link from `Footer.tsx`
-- Add `<meta name="robots" content="noindex">` to all `/admin/*` routes (already partial — verify)
-- Admin only reachable by typing `/admin` directly
-
-### 8. Footer refinement
-
-- Add Instagram + Facebook icons (from `site_settings.social_links`)
-- Cleaner 4-column layout with logo + tagline, Visit, Explore, Follow
-- No admin link
-- Subtle terracotta divider accent
-
-### 9. Header polish
-
-- CTA button uses new gold variant safely (charcoal text)
-- Slightly larger logo, refined nav spacing
-- Mobile drawer animation (slide + fade)
-
-### 10. SEO additions
-
-- `public/robots.txt` — allow all, disallow `/admin`, point to sitemap
-- Server route `/sitemap.xml` — dynamically lists `/`, `/about`, `/locations`, `/menus`, `/gallery`, `/contact`, plus each active location slug
-- JSON-LD `Restaurant` schema on each location detail page (name, address, phone, hours, image)
-- Per-route head metadata audit — confirm unique title/description/og on every public page
-
-### 11. Polish pass
-
-- Consistent section padding rhythm
-- Lazy-load all gallery images
-- Focus rings visible on all interactive elements
-- Form a11y check on contact page
-- Small terracotta SVG motif decorations behind section headings (low opacity)
-
-### Files touched (summary)
-
-**New:** `src/components/site/IntroOverlay.tsx`, `src/components/admin/HoursEditor.tsx`, `src/routes/sitemap[.]xml.tsx`, `public/robots.txt`, migration SQL
-
-**Modified:** `button.tsx`, `Header.tsx`, `Footer.tsx`, `PublicLayout.tsx`, `index.tsx` (home), `locations.$slug.tsx`, `admin.locations.tsx`, `lib/site.ts` (add social helper)
-
-### Deliverables at the end
-1. UI/UX changes summary
-2. Admin changes summary
-3. SQL migration (new location fields)
-4. Intro animation behavior notes
-5. Confirmation admin link removed from footer
-6. Setup notes (none new — all auto-configured)
-
+### Deliverables
+1. Hero fixes summary (contrast, typography, layout)
+2. Admin fields added (image + 6 text fields)
+3. Schema change (7 new columns on `site_settings`)
+4. Confirmation hero is fully admin-managed with sensible fallbacks
