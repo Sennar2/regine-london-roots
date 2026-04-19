@@ -217,60 +217,78 @@ export type Database = {
           address: string | null
           area: string | null
           booking_link: string | null
+          click_collect_url: string | null
           created_at: string
+          deliveroo_url: string | null
           description: string | null
           display_order: number
           email: string | null
+          full_description: string | null
           gallery_image_urls: Json | null
           hero_image_url: string | null
           id: string
           is_active: boolean
+          is_featured: boolean
+          justeat_url: string | null
           maps_link: string | null
           name: string
           opening_hours: Json | null
           phone: string | null
           postcode: string | null
           slug: string
+          ubereats_url: string | null
           updated_at: string
         }
         Insert: {
           address?: string | null
           area?: string | null
           booking_link?: string | null
+          click_collect_url?: string | null
           created_at?: string
+          deliveroo_url?: string | null
           description?: string | null
           display_order?: number
           email?: string | null
+          full_description?: string | null
           gallery_image_urls?: Json | null
           hero_image_url?: string | null
           id?: string
           is_active?: boolean
+          is_featured?: boolean
+          justeat_url?: string | null
           maps_link?: string | null
           name: string
           opening_hours?: Json | null
           phone?: string | null
           postcode?: string | null
           slug: string
+          ubereats_url?: string | null
           updated_at?: string
         }
         Update: {
           address?: string | null
           area?: string | null
           booking_link?: string | null
+          click_collect_url?: string | null
           created_at?: string
+          deliveroo_url?: string | null
           description?: string | null
           display_order?: number
           email?: string | null
+          full_description?: string | null
           gallery_image_urls?: Json | null
           hero_image_url?: string | null
           id?: string
           is_active?: boolean
+          is_featured?: boolean
+          justeat_url?: string | null
           maps_link?: string | null
           name?: string
           opening_hours?: Json | null
           phone?: string | null
           postcode?: string | null
           slug?: string
+          ubereats_url?: string | null
           updated_at?: string
         }
         Relationships: []

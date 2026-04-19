@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MenusRouteImport } from './routes/menus'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -27,6 +28,11 @@ import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminFilesRouteImport } from './routes/admin.files'
 import { Route as AdminAboutRouteImport } from './routes/admin.about'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MenusRoute = MenusRouteImport.update({
   id: '/menus',
   path: '/menus',
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/menus': typeof MenusRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/sitemap.xml'
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/sitemap.xml'
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/menus'
+    | '/sitemap.xml'
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   MenusRoute: typeof MenusRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminAboutRoute: typeof AdminAboutRoute
   AdminFilesRoute: typeof AdminFilesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
@@ -253,6 +266,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/menus': {
       id: '/menus'
       path: '/menus'
@@ -381,6 +401,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   MenusRoute: MenusRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminAboutRoute: AdminAboutRoute,
   AdminFilesRoute: AdminFilesRoute,
   AdminGalleryRoute: AdminGalleryRoute,
