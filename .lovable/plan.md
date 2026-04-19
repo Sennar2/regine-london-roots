@@ -1,57 +1,104 @@
 
-## Reginè Pizzeria — Website + Admin CMS
 
-A warm, editorial, mobile-first website for a Southern Italian family pizzeria in London, with a full admin area to manage all content. Built on TanStack Start + Tailwind + Lovable Cloud (Supabase) for auth, database, and storage.
+## Reginè Pizzeria — v1 Launch Polish
 
-### Brand system
-- **Colors**: Reginè Red `#B22234`, Crown Gold `#F4A300`, Charcoal `#2C2C2C`, Cream `#FFF8E7`, Olive `#6B8E23`, Terracotta `#D2691E`
-- **Type**: Elegant serif headlines (Playfair Display), clean sans body (Inter)
-- **Motifs**: Subtle terracotta line-art (basil, tomatoes, wheat, olive branches) at 20–30% opacity as background accents
-- **Logo**: Placeholder mark in header/footer/hero — replaceable from Admin → Branding once you upload the file
+Refining the existing site into a launch-ready, premium hospitality experience. Keeping current structure, brand, admin, and data — extending where needed.
 
-### Public pages
-1. **Home** — Hero with logo + "Southern Italian warmth, served in London." headline, family intro, locations preview, menu CTA, featured gallery, contact CTA
-2. **About** — Family story, Southern Italian roots, philosophy, supporting imagery (admin-editable)
-3. **Locations** — Dynamic list of all active locations, seeded with **Wandsworth**
-4. **Location detail** (`/locations/$slug`) — Hero, address, hours, phone/email, View menu / Directions / Contact buttons, gallery, description
-5. **Menus** — Grouped by category, PDF open/download or external link, optionally per-location
-6. **Gallery** — Masonry grid + lightbox, captions, optional location filter
-7. **Contact** — Form (name, email, phone, subject, message) with success/error states, plus phone/email/address/hours/map
+### 1. Database — add ordering/delivery fields to `locations`
 
-Sticky header with mobile drawer menu, elegant footer with brand summary, contact, quick links.
+Migration adds four optional URL columns:
+- `deliveroo_url`, `justeat_url`, `ubereats_url`, `click_collect_url`
+- Plus `is_featured boolean default false` and `full_description text` (separate from short `description`)
 
-### Admin area (`/admin`, password-protected via Supabase auth)
-- **Dashboard** — Counts (locations, menus, files, images) + quick links
-- **Locations Manager** — name, slug, area, address, postcode, phone, email, hours, description, hero image, gallery, maps link, booking link, active toggle, display order
-- **Menus Manager** — title, slug, description, category, location(s), PDF upload, external URL, active/featured toggles, order
-- **Files Manager** — title, category, file upload, external link, optional location, active toggle
-- **Gallery Manager** — image upload, caption, alt text, optional location, featured toggle, order, active toggle
-- **About Manager** — headline, intro, full story, images
-- **Contact Details Manager** — email, phone, enquiry text, social links, footer text, CTA text
-- **Links Manager** — useful links (booking, delivery, maps, Instagram, etc.)
-- **Branding** — Upload logo + favicon (replaces the placeholder everywhere)
+No data loss. Existing rows untouched.
 
-### Data model (Lovable Cloud / Supabase)
-Tables: `locations`, `menus`, `files`, `gallery_images`, `links`, `about_content` (singleton), `site_settings` (singleton with branding + contact), `contact_messages`, `user_roles` (admin role via separate table — never on profiles), plus `has_role()` security-definer function.
+### 2. Button system — fix contrast (gold-on-gold issue)
 
-Storage buckets: `branding` (public), `locations` (public), `menus` (public), `gallery` (public), `files` (public).
+Refactor `src/components/ui/button.tsx` variants:
+- `default` (Primary) — Reginè Red bg, cream text
+- `secondary` — cream bg, charcoal text, subtle border
+- `outline` — transparent bg, charcoal text, charcoal border, hover cream tint
+- New `gold` variant — gold bg, **charcoal text** (never gold-on-gold)
+- New `onDark` outline — for use on dark hero overlays (cream border + cream text)
+- Sizes get a true `xl` for hero CTAs; consistent radius & focus ring across all
 
-RLS: public read on active rows; insert/update/delete restricted to users with `admin` role. Contact form inserts allowed for anyone; only admins can read.
+Audit all routes — replace ad-hoc `bg-brand-gold` etc. with proper variants. Fix the homepage menu CTA strip and contact-CTA buttons.
 
-### SEO & performance
-- Per-route `head()` with title, description, OG tags (location pages get local-SEO titles like "Reginè Pizzeria Wandsworth — Southern Italian pizza in Wandsworth, London")
-- Hero image used as `og:image` per route
-- Semantic HTML, alt text on all images, accessible forms
-- Lazy-loaded gallery images, sitemap, robots.txt
+### 3. Hero polish (homepage)
 
-### Initial seed
-- Wandsworth location (placeholder address/hours — editable)
-- Sample about copy, contact placeholders, example menu category, gallery placeholders
-- First admin user created on first signup at `/admin/login` (you'll set the email + password)
+- Tighter editorial layout — kicker line, bigger serif headline, refined CTA group
+- Better gradient (less heavy at bottom), proper image positioning
+- Two CTAs: primary "View Menus" + outline-on-dark "Find Us"
+- Improved spacing on mobile (no awkward empty bottom area)
+- Add subtle gold separator/serif italic accent line
+
+### 4. First-load intro animation
+
+New component `src/components/site/IntroOverlay.tsx`:
+- Cream full-screen overlay, Reginè logo fades + scales in, subtitle "Southern Italian warmth, served in London." fades up
+- Auto-dismiss after ~1.6s with smooth fade-out, skippable on click/scroll/keypress
+- Uses `sessionStorage` flag `regine_intro_seen` — shows only on first visit per session
+- Mounted in `PublicLayout` (not on `/admin` routes)
+- Respects `prefers-reduced-motion` (instant skip)
+
+### 5. Location detail page — order/delivery CTAs
+
+Render new section "Order online" with cards/buttons for any of: Deliveroo, Just Eat, Uber Eats, Click & Collect (only those that have URLs). Stacked elegantly on mobile, branded but tasteful (no colored vendor logos — clean labelled buttons with external-link icon).
+
+Also: improved hero CTA group, better hours card styling, embedded map (if `maps_link`).
+
+### 6. Admin — Locations Manager improvements
+
+- Add fields for the 4 ordering URLs + `full_description` + `is_featured`
+- Restructure modal into tabbed sections (Basics / Contact & Hours / Media / Ordering & Links / Visibility) for clarity
+- Helpful empty states, URL validation hints
+- Replace raw JSON textarea for opening hours with a friendly day-by-day editor (Mon–Sun rows)
+
+### 7. Hide admin from public
+
+- Remove the "Admin" link from `Footer.tsx`
+- Add `<meta name="robots" content="noindex">` to all `/admin/*` routes (already partial — verify)
+- Admin only reachable by typing `/admin` directly
+
+### 8. Footer refinement
+
+- Add Instagram + Facebook icons (from `site_settings.social_links`)
+- Cleaner 4-column layout with logo + tagline, Visit, Explore, Follow
+- No admin link
+- Subtle terracotta divider accent
+
+### 9. Header polish
+
+- CTA button uses new gold variant safely (charcoal text)
+- Slightly larger logo, refined nav spacing
+- Mobile drawer animation (slide + fade)
+
+### 10. SEO additions
+
+- `public/robots.txt` — allow all, disallow `/admin`, point to sitemap
+- Server route `/sitemap.xml` — dynamically lists `/`, `/about`, `/locations`, `/menus`, `/gallery`, `/contact`, plus each active location slug
+- JSON-LD `Restaurant` schema on each location detail page (name, address, phone, hours, image)
+- Per-route head metadata audit — confirm unique title/description/og on every public page
+
+### 11. Polish pass
+
+- Consistent section padding rhythm
+- Lazy-load all gallery images
+- Focus rings visible on all interactive elements
+- Form a11y check on contact page
+- Small terracotta SVG motif decorations behind section headings (low opacity)
+
+### Files touched (summary)
+
+**New:** `src/components/site/IntroOverlay.tsx`, `src/components/admin/HoursEditor.tsx`, `src/routes/sitemap[.]xml.tsx`, `public/robots.txt`, migration SQL
+
+**Modified:** `button.tsx`, `Header.tsx`, `Footer.tsx`, `PublicLayout.tsx`, `index.tsx` (home), `locations.$slug.tsx`, `admin.locations.tsx`, `lib/site.ts` (add social helper)
 
 ### Deliverables at the end
-1. SQL schema summary
-2. Setup notes (how to log into admin, replace logo, edit content)
-3. Env vars (auto-configured by Lovable Cloud — none needed manually)
-4. Storage bucket policies summary
-5. Editable content map
+1. UI/UX changes summary
+2. Admin changes summary
+3. SQL migration (new location fields)
+4. Intro animation behavior notes
+5. Confirmation admin link removed from footer
+6. Setup notes (none new — all auto-configured)
+
