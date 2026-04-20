@@ -225,7 +225,12 @@ export type Database = {
           email: string | null
           full_description: string | null
           gallery_image_urls: Json | null
+          hero_cta_href: string | null
+          hero_cta_label: string | null
+          hero_eyebrow: string | null
           hero_image_url: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
           id: string
           is_active: boolean
           is_featured: boolean
@@ -251,7 +256,12 @@ export type Database = {
           email?: string | null
           full_description?: string | null
           gallery_image_urls?: Json | null
+          hero_cta_href?: string | null
+          hero_cta_label?: string | null
+          hero_eyebrow?: string | null
           hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
           id?: string
           is_active?: boolean
           is_featured?: boolean
@@ -277,7 +287,12 @@ export type Database = {
           email?: string | null
           full_description?: string | null
           gallery_image_urls?: Json | null
+          hero_cta_href?: string | null
+          hero_cta_label?: string | null
+          hero_eyebrow?: string | null
           hero_image_url?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
           id?: string
           is_active?: boolean
           is_featured?: boolean
