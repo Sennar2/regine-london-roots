@@ -41,7 +41,7 @@ export const Route = createFileRoute("/locations/$slug")({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Restaurant",
-        name: `Reginè Pizzeria ${l.name}`,
+        name: l.name,
         servesCuisine: ["Italian", "Pizza", "Southern Italian"],
         image: l.hero_image_url ?? undefined,
         telephone: l.phone ?? undefined,
