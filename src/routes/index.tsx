@@ -81,10 +81,10 @@ function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="xl" variant="default">
-                <Link to={hero.ctaPrimaryHref}>{hero.ctaPrimaryLabel} <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <a href={hero.ctaPrimaryHref}>{hero.ctaPrimaryLabel} <ArrowRight className="ml-1 h-4 w-4" /></a>
               </Button>
               <Button asChild size="xl" variant="outline">
-                <Link to={hero.ctaSecondaryHref}>{hero.ctaSecondaryLabel}</Link>
+                <a href={hero.ctaSecondaryHref}>{hero.ctaSecondaryLabel}</a>
               </Button>
             </div>
           </div>
