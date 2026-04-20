@@ -107,8 +107,9 @@ function LocationsAdmin() {
             <h2 className="font-serif text-2xl">{editing.id ? "Edit" : "New"} location</h2>
 
             <Tabs defaultValue="basics" className="mt-5">
-              <TabsList className="grid w-full grid-cols-5">
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="basics">Basics</TabsTrigger>
+                <TabsTrigger value="hero">Hero</TabsTrigger>
                 <TabsTrigger value="contact">Contact &amp; Hours</TabsTrigger>
                 <TabsTrigger value="media">Media</TabsTrigger>
                 <TabsTrigger value="ordering">Ordering &amp; Links</TabsTrigger>
