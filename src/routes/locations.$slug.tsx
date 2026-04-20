@@ -9,6 +9,8 @@ import locationFallback from "@/assets/location-wandsworth.jpg";
 type Loc = {
   id: string; name: string; slug: string; area: string | null; address: string | null; postcode: string | null;
   phone: string | null; email: string | null; description: string | null; full_description: string | null; hero_image_url: string | null;
+  hero_eyebrow: string | null; hero_title: string | null; hero_subtitle: string | null;
+  hero_cta_label: string | null; hero_cta_href: string | null;
   gallery_image_urls: string[] | null; opening_hours: { day: string; hours: string }[] | null;
   maps_link: string | null; booking_link: string | null;
   deliveroo_url: string | null; justeat_url: string | null; ubereats_url: string | null; click_collect_url: string | null;
