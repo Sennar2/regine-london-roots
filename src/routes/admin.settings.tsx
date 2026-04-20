@@ -68,6 +68,27 @@ function SettingsAdmin() {
           </Field>
           <Field label="Map embed URL"><Input value={s.map_embed_url ?? ""} onChange={(e) => setS({ ...s, map_embed_url: e.target.value })} /></Field>
         </Card>
+        <Card title="Homepage Hero">
+          <Field label="Hero image">
+            <div className="flex items-center gap-3">
+              {s.hero_image_url && <img src={s.hero_image_url} className="h-16 w-24 rounded object-cover bg-muted" alt="" />}
+              <Input value={s.hero_image_url ?? ""} onChange={(e) => setS({ ...s, hero_image_url: e.target.value })} placeholder="Image URL" />
+              <FileUpload bucket="branding" accept="image/*" onUploaded={(url) => setS({ ...s, hero_image_url: url })} />
+              {s.hero_image_url && (
+                <Button type="button" variant="outline" size="sm" onClick={() => setS({ ...s, hero_image_url: null })}>Remove</Button>
+              )}
+            </div>
+          </Field>
+          <Field label="Eyebrow (small kicker)"><Input value={s.hero_eyebrow ?? ""} onChange={(e) => setS({ ...s, hero_eyebrow: e.target.value })} placeholder="Family pizzeria · London" /></Field>
+          <Field label="Headline"><Textarea rows={2} value={s.hero_headline ?? ""} onChange={(e) => setS({ ...s, hero_headline: e.target.value })} placeholder="Southern Italian warmth, served in London." /></Field>
+          <Field label="Subheading"><Textarea rows={2} value={s.hero_subheading ?? ""} onChange={(e) => setS({ ...s, hero_subheading: e.target.value })} placeholder="A neighbourhood pizzeria with Southern Italian roots…" /></Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Primary CTA label"><Input value={s.hero_cta_primary_label ?? ""} onChange={(e) => setS({ ...s, hero_cta_primary_label: e.target.value })} placeholder="View Menus" /></Field>
+            <Field label="Primary CTA link"><Input value={s.hero_cta_primary_href ?? ""} onChange={(e) => setS({ ...s, hero_cta_primary_href: e.target.value })} placeholder="/menus" /></Field>
+            <Field label="Secondary CTA label"><Input value={s.hero_cta_secondary_label ?? ""} onChange={(e) => setS({ ...s, hero_cta_secondary_label: e.target.value })} placeholder="Find Us" /></Field>
+            <Field label="Secondary CTA link"><Input value={s.hero_cta_secondary_href ?? ""} onChange={(e) => setS({ ...s, hero_cta_secondary_href: e.target.value })} placeholder="/locations" /></Field>
+          </div>
+        </Card>
       </div>
       <div className="mt-6"><Button onClick={save}>Save settings</Button></div>
     </AdminLayout>
