@@ -130,6 +130,22 @@ function LocationsAdmin() {
                 </Field>
               </TabsContent>
 
+              <TabsContent value="hero" className="mt-5 grid gap-4 sm:grid-cols-2">
+                <Field label="Hero image" className="sm:col-span-2" hint="Shown at the top of the location page. Falls back to a default image if empty.">
+                  <div className="flex items-center gap-3">
+                    {editing.hero_image_url && <img src={editing.hero_image_url} className="h-16 w-24 rounded object-cover" alt="" />}
+                    <Input value={editing.hero_image_url ?? ""} onChange={(e) => set("hero_image_url", e.target.value)} placeholder="https://…" />
+                    <FileUpload bucket="locations" accept="image/*" onUploaded={(url) => set("hero_image_url", url)} />
+                    {editing.hero_image_url && <Button type="button" size="sm" variant="ghost" onClick={() => set("hero_image_url", null)}>Remove</Button>}
+                  </div>
+                </Field>
+                <Field label="Hero eyebrow" hint="Small kicker above the title. Defaults to the area."><Input value={editing.hero_eyebrow ?? ""} onChange={(e) => set("hero_eyebrow", e.target.value)} placeholder="e.g. Wandsworth" /></Field>
+                <Field label="Hero title override" hint="Leave blank to use the location name."><Input value={editing.hero_title ?? ""} onChange={(e) => set("hero_title", e.target.value)} placeholder="e.g. Reginè Wandsworth" /></Field>
+                <Field label="Hero subtitle" className="sm:col-span-2" hint="Leave blank to use the address."><Input value={editing.hero_subtitle ?? ""} onChange={(e) => set("hero_subtitle", e.target.value)} placeholder="A short editorial line" /></Field>
+                <Field label="Extra CTA label" hint="Optional additional button (e.g. Order now)."><Input value={editing.hero_cta_label ?? ""} onChange={(e) => set("hero_cta_label", e.target.value)} /></Field>
+                <Field label="Extra CTA link"><Input value={editing.hero_cta_href ?? ""} onChange={(e) => set("hero_cta_href", e.target.value)} placeholder="https://…" /></Field>
+              </TabsContent>
+
               <TabsContent value="contact" className="mt-5 grid gap-4 sm:grid-cols-2">
                 <Field label="Phone"><Input value={editing.phone ?? ""} onChange={(e) => set("phone", e.target.value)} /></Field>
                 <Field label="Email"><Input type="email" value={editing.email ?? ""} onChange={(e) => set("email", e.target.value)} /></Field>
