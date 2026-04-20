@@ -17,6 +17,14 @@ export type SiteSettings = {
   cta_text: string | null;
   map_embed_url: string | null;
   enquiry_text: string | null;
+  hero_image_url: string | null;
+  hero_eyebrow: string | null;
+  hero_headline: string | null;
+  hero_subheading: string | null;
+  hero_cta_primary_label: string | null;
+  hero_cta_primary_href: string | null;
+  hero_cta_secondary_label: string | null;
+  hero_cta_secondary_href: string | null;
 };
 
 export async function fetchSiteSettings(): Promise<SiteSettings | null> {
