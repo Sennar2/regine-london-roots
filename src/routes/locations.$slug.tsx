@@ -213,7 +213,7 @@ function LocationDetail() {
       {l.gallery_image_urls && l.gallery_image_urls.length > 0 && (
         <section className="bg-secondary/40">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-3xl">Inside Reginè {l.name}</h2>
+            <h2 className="font-serif text-3xl">Inside {l.name}</h2>
             <div className="gallery-cols mt-8">
               {(l.gallery_image_urls as string[]).map((url: string, i: number) => (
                 <img key={i} src={url} alt={`${l.name} interior ${i + 1}`} className="w-full rounded-xl object-cover" loading="lazy" />
