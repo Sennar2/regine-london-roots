@@ -24,7 +24,7 @@ export const Route = createFileRoute("/locations/$slug")({
   },
   head: ({ loaderData }) => {
     const l = loaderData?.location;
-    const title = l ? `Reginè Pizzeria ${l.name} — Southern Italian pizza in ${l.area ?? "London"}` : "Location — Reginè Pizzeria";
+    const title = l ? `${l.name} — Southern Italian pizza in ${l.area ?? "London"}` : "Location — Reginè Pizzeria";
     const desc = l?.description ?? `Visit ${l?.name ?? "Reginè Pizzeria"} in London for authentic Southern Italian pizza.`;
     const meta: Array<Record<string, string>> = [
       { title },
