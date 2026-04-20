@@ -9,6 +9,8 @@ import locationFallback from "@/assets/location-wandsworth.jpg";
 type Loc = {
   id: string; name: string; slug: string; area: string | null; address: string | null; postcode: string | null;
   phone: string | null; email: string | null; description: string | null; full_description: string | null; hero_image_url: string | null;
+  hero_eyebrow: string | null; hero_title: string | null; hero_subtitle: string | null;
+  hero_cta_label: string | null; hero_cta_href: string | null;
   gallery_image_urls: string[] | null; opening_hours: { day: string; hours: string }[] | null;
   maps_link: string | null; booking_link: string | null;
   deliveroo_url: string | null; justeat_url: string | null; ubereats_url: string | null; click_collect_url: string | null;
@@ -22,7 +24,7 @@ export const Route = createFileRoute("/locations/$slug")({
   },
   head: ({ loaderData }) => {
     const l = loaderData?.location;
-    const title = l ? `Reginè Pizzeria ${l.name} — Southern Italian pizza in ${l.area ?? "London"}` : "Location — Reginè Pizzeria";
+    const title = l ? `${l.name} — Southern Italian pizza in ${l.area ?? "London"}` : "Location — Reginè Pizzeria";
     const desc = l?.description ?? `Visit ${l?.name ?? "Reginè Pizzeria"} in London for authentic Southern Italian pizza.`;
     const meta: Array<Record<string, string>> = [
       { title },
@@ -39,7 +41,7 @@ export const Route = createFileRoute("/locations/$slug")({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Restaurant",
-        name: `Reginè Pizzeria ${l.name}`,
+        name: l.name,
         servesCuisine: ["Italian", "Pizza", "Southern Italian"],
         image: l.hero_image_url ?? undefined,
         telephone: l.phone ?? undefined,
@@ -94,22 +96,33 @@ function LocationDetail() {
     { label: "Click & Collect", url: l.click_collect_url },
   ].filter((x): x is { label: string; url: string } => !!x.url);
 
+  const heroTitle = l.hero_title ?? l.name;
+  const heroEyebrow = l.hero_eyebrow ?? l.area ?? "London";
+  const heroSubtitle = l.hero_subtitle ?? (l.address ? `${l.address}${l.postcode ? `, ${l.postcode}` : ""}` : null);
+
   return (
     <PublicLayout>
-      <section className="relative">
-        <div className="absolute inset-0 -z-10">
-          <img src={hero} alt="" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-charcoal/40 to-brand-charcoal/85" />
-        </div>
-        <div className="mx-auto flex min-h-[60vh] max-w-7xl flex-col justify-end px-4 py-16 text-brand-cream sm:px-6 lg:px-8">
-          <Link to="/locations" className="mb-6 inline-flex items-center gap-2 text-sm text-brand-cream/80 hover:text-brand-cream"><ArrowLeft className="h-4 w-4" /> All locations</Link>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-gold">{l.area ?? "London"}</p>
-          <h1 className="mt-3 font-serif text-4xl font-semibold sm:text-6xl text-balance">Reginè {l.name}</h1>
-          {l.address && <p className="mt-4 max-w-xl text-brand-cream/85">{l.address}{l.postcode ? `, ${l.postcode}` : ""}</p>}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild variant="default"><Link to="/menus">View menu</Link></Button>
-            {l.maps_link && <Button asChild variant="onDark"><a href={l.maps_link} target="_blank" rel="noreferrer">Get directions <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
-            {l.booking_link && <Button asChild variant="gold"><a href={l.booking_link} target="_blank" rel="noreferrer">Book a table</a></Button>}
+      <section className="bg-brand-cream">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-20 lg:px-8">
+          <div className="order-2 lg:order-1">
+            <Link to="/locations" className="mb-6 inline-flex items-center gap-2 text-sm text-brand-charcoal/70 hover:text-brand-charcoal"><ArrowLeft className="h-4 w-4" /> All locations</Link>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-gold">{heroEyebrow}</p>
+            <h1 className="mt-3 font-serif text-4xl font-semibold leading-[1.05] text-brand-charcoal text-balance sm:text-5xl lg:text-6xl">{heroTitle}</h1>
+            {heroSubtitle && <p className="mt-5 max-w-xl text-base text-brand-charcoal/70 sm:text-lg">{heroSubtitle}</p>}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button asChild className="w-full sm:w-auto"><Link to="/menus">View menu</Link></Button>
+              {l.maps_link && <Button asChild variant="outline" className="w-full sm:w-auto"><a href={l.maps_link} target="_blank" rel="noreferrer">Get directions <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
+              {l.booking_link && <Button asChild variant="gold" className="w-full sm:w-auto"><a href={l.booking_link} target="_blank" rel="noreferrer">Book a table</a></Button>}
+              {l.hero_cta_label && l.hero_cta_href && <Button asChild variant="secondary" className="w-full sm:w-auto"><a href={l.hero_cta_href} target="_blank" rel="noreferrer">{l.hero_cta_label} <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
+            </div>
+          </div>
+          <div className="order-1 lg:order-2">
+            <div className="relative">
+              <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-brand-terracotta/15 sm:-inset-4" aria-hidden />
+              <div className="aspect-[4/3] overflow-hidden rounded-2xl shadow-xl sm:aspect-[5/4]">
+                <img src={hero} alt={`${l.name} interior`} className="h-full w-full object-cover" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -200,7 +213,7 @@ function LocationDetail() {
       {l.gallery_image_urls && l.gallery_image_urls.length > 0 && (
         <section className="bg-secondary/40">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-3xl">Inside Reginè {l.name}</h2>
+            <h2 className="font-serif text-3xl">Inside {l.name}</h2>
             <div className="gallery-cols mt-8">
               {(l.gallery_image_urls as string[]).map((url: string, i: number) => (
                 <img key={i} src={url} alt={`${l.name} interior ${i + 1}`} className="w-full rounded-xl object-cover" loading="lazy" />

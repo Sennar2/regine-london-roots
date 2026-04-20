@@ -22,6 +22,8 @@ type Loc = {
   phone: string | null; email: string | null;
   description: string | null; full_description: string | null;
   hero_image_url: string | null;
+  hero_eyebrow: string | null; hero_title: string | null; hero_subtitle: string | null;
+  hero_cta_label: string | null; hero_cta_href: string | null;
   maps_link: string | null; booking_link: string | null;
   deliveroo_url: string | null; justeat_url: string | null; ubereats_url: string | null; click_collect_url: string | null;
   is_active: boolean; is_featured: boolean; display_order: number;
@@ -105,8 +107,9 @@ function LocationsAdmin() {
             <h2 className="font-serif text-2xl">{editing.id ? "Edit" : "New"} location</h2>
 
             <Tabs defaultValue="basics" className="mt-5">
-              <TabsList className="grid w-full grid-cols-5">
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="basics">Basics</TabsTrigger>
+                <TabsTrigger value="hero">Hero</TabsTrigger>
                 <TabsTrigger value="contact">Contact &amp; Hours</TabsTrigger>
                 <TabsTrigger value="media">Media</TabsTrigger>
                 <TabsTrigger value="ordering">Ordering &amp; Links</TabsTrigger>
@@ -125,6 +128,22 @@ function LocationsAdmin() {
                 <Field label="Full description" className="sm:col-span-2" hint="Longer story shown on the location page. Use blank lines between paragraphs.">
                   <Textarea rows={5} value={editing.full_description ?? ""} onChange={(e) => set("full_description", e.target.value)} />
                 </Field>
+              </TabsContent>
+
+              <TabsContent value="hero" className="mt-5 grid gap-4 sm:grid-cols-2">
+                <Field label="Hero image" className="sm:col-span-2" hint="Shown at the top of the location page. Falls back to a default image if empty.">
+                  <div className="flex items-center gap-3">
+                    {editing.hero_image_url && <img src={editing.hero_image_url} className="h-16 w-24 rounded object-cover" alt="" />}
+                    <Input value={editing.hero_image_url ?? ""} onChange={(e) => set("hero_image_url", e.target.value)} placeholder="https://…" />
+                    <FileUpload bucket="locations" accept="image/*" onUploaded={(url) => set("hero_image_url", url)} />
+                    {editing.hero_image_url && <Button type="button" size="sm" variant="ghost" onClick={() => set("hero_image_url", null)}>Remove</Button>}
+                  </div>
+                </Field>
+                <Field label="Hero eyebrow" hint="Small kicker above the title. Defaults to the area."><Input value={editing.hero_eyebrow ?? ""} onChange={(e) => set("hero_eyebrow", e.target.value)} placeholder="e.g. Wandsworth" /></Field>
+                <Field label="Hero title override" hint="Leave blank to use the location name."><Input value={editing.hero_title ?? ""} onChange={(e) => set("hero_title", e.target.value)} placeholder="e.g. Reginè Wandsworth" /></Field>
+                <Field label="Hero subtitle" className="sm:col-span-2" hint="Leave blank to use the address."><Input value={editing.hero_subtitle ?? ""} onChange={(e) => set("hero_subtitle", e.target.value)} placeholder="A short editorial line" /></Field>
+                <Field label="Extra CTA label" hint="Optional additional button (e.g. Order now)."><Input value={editing.hero_cta_label ?? ""} onChange={(e) => set("hero_cta_label", e.target.value)} /></Field>
+                <Field label="Extra CTA link"><Input value={editing.hero_cta_href ?? ""} onChange={(e) => set("hero_cta_href", e.target.value)} placeholder="https://…" /></Field>
               </TabsContent>
 
               <TabsContent value="contact" className="mt-5 grid gap-4 sm:grid-cols-2">
