@@ -23,48 +23,82 @@ export const Route = createFileRoute("/")({
 
 type LocCard = { id: string; name: string; slug: string; area: string | null; hero_image_url: string | null; description: string | null };
 type GalleryItem = { id: string; image_url: string; alt_text: string | null; caption: string | null };
+type Hero = {
+  image: string; eyebrow: string; headline: string; subheading: string;
+  ctaPrimaryLabel: string; ctaPrimaryHref: string;
+  ctaSecondaryLabel: string; ctaSecondaryHref: string;
+};
+
+const HERO_DEFAULTS: Hero = {
+  image: heroPizza,
+  eyebrow: "Family pizzeria · London",
+  headline: "Southern Italian warmth, served in London.",
+  subheading: "A neighbourhood pizzeria with Southern Italian roots. Hand-stretched dough, simple ingredients, and a welcome that feels like home.",
+  ctaPrimaryLabel: "View Menus", ctaPrimaryHref: "/menus",
+  ctaSecondaryLabel: "Find Us", ctaSecondaryHref: "/locations",
+};
 
 function HomePage() {
   const [locations, setLocations] = useState<LocCard[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
-  const [tagline, setTagline] = useState<string>("Southern Italian warmth, served in London.");
+  const [hero, setHero] = useState<Hero>(HERO_DEFAULTS);
 
   useEffect(() => {
     supabase.from("locations").select("id,name,slug,area,hero_image_url,description").eq("is_active", true).order("display_order").then(({ data }) => setLocations((data as LocCard[] | null) ?? []));
     supabase.from("gallery_images").select("id,image_url,alt_text,caption").eq("is_active", true).eq("is_featured", true).order("display_order").limit(6).then(({ data }) => setGallery((data as GalleryItem[] | null) ?? []));
-    supabase.from("site_settings").select("brand_tagline").eq("id", 1).maybeSingle().then(({ data }) => { if (data?.brand_tagline) setTagline(data.brand_tagline); });
+    supabase.from("site_settings").select("brand_tagline,hero_image_url,hero_eyebrow,hero_headline,hero_subheading,hero_cta_primary_label,hero_cta_primary_href,hero_cta_secondary_label,hero_cta_secondary_href").eq("id", 1).maybeSingle().then(({ data }) => {
+        if (!data) return;
+        const d = data as Record<string, string | null>;
+        setHero({
+          image: d.hero_image_url || HERO_DEFAULTS.image,
+          eyebrow: d.hero_eyebrow || HERO_DEFAULTS.eyebrow,
+          headline: d.hero_headline || d.brand_tagline || HERO_DEFAULTS.headline,
+          subheading: d.hero_subheading || HERO_DEFAULTS.subheading,
+          ctaPrimaryLabel: d.hero_cta_primary_label || HERO_DEFAULTS.ctaPrimaryLabel,
+          ctaPrimaryHref: d.hero_cta_primary_href || HERO_DEFAULTS.ctaPrimaryHref,
+          ctaSecondaryLabel: d.hero_cta_secondary_label || HERO_DEFAULTS.ctaSecondaryLabel,
+          ctaSecondaryHref: d.hero_cta_secondary_href || HERO_DEFAULTS.ctaSecondaryHref,
+        });
+      });
   }, []);
 
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <img src={heroPizza} alt="" className="h-full w-full object-cover object-center" width={1600} height={1200} />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-charcoal/55 via-brand-charcoal/35 to-brand-charcoal/75" />
-        </div>
-        <div className="mx-auto flex min-h-[82vh] max-w-7xl flex-col justify-center px-4 py-24 text-brand-cream sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="mb-5 inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-brand-gold">
-              <span className="h-px w-10 bg-brand-gold" /> Family pizzeria · London
+      {/* Hero — editorial split, charcoal-on-cream for max contrast */}
+      <section className="relative overflow-hidden bg-brand-cream">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand-terracotta/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
+          <div className="order-2 lg:order-1">
+            <p className="mb-5 inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-brand-gold">
+              <span className="h-px w-10 bg-brand-gold" /> {hero.eyebrow}
             </p>
-            <h1 className="font-serif text-5xl font-semibold leading-[1.02] text-balance sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-              {tagline}
+            <h1 className="font-serif text-4xl font-bold leading-[1.05] text-brand-charcoal text-balance sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+              {hero.headline}
             </h1>
-            <p className="mt-3 font-serif italic text-lg text-brand-gold/90 sm:text-xl">
-              — first home: Wandsworth
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-brand-charcoal/75 text-pretty sm:text-lg">
+              {hero.subheading}
             </p>
-            <p className="mt-7 max-w-xl text-base text-brand-cream/85 sm:text-lg text-pretty">
-              A neighbourhood pizzeria with Southern Italian roots. Hand-stretched dough, simple ingredients, and a welcome that feels like home.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="xl" variant="default">
-                <Link to="/menus">View Menus <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <Link to={hero.ctaPrimaryHref}>{hero.ctaPrimaryLabel} <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
-              <Button asChild size="xl" variant="onDark">
-                <Link to="/locations">Find Us</Link>
+              <Button asChild size="xl" variant="outline">
+                <Link to={hero.ctaSecondaryHref}>{hero.ctaSecondaryLabel}</Link>
               </Button>
             </div>
+          </div>
+          <div className="relative order-1 lg:order-2">
+            <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-brand-terracotta/15" />
+            <div className="absolute -bottom-3 -right-3 -z-10 h-24 w-24 rounded-full border-2 border-brand-gold/40" />
+            <img
+              src={hero.image}
+              alt="Reginè wood-fired pizza"
+              className="aspect-[4/5] w-full rounded-[1.75rem] object-cover shadow-2xl sm:aspect-[5/4] lg:aspect-[4/5]"
+              width={1200}
+              height={1500}
+              loading="eager"
+            />
           </div>
         </div>
       </section>
