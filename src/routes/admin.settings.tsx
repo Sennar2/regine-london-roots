@@ -18,6 +18,9 @@ type S = {
   id: number; logo_url: string | null; favicon_url: string | null; brand_tagline: string | null; brand_description: string | null;
   contact_email: string | null; contact_phone: string | null; address: string | null; hours_summary: string | null;
   social_links: Record<string, string> | null; footer_text: string | null; cta_text: string | null; map_embed_url: string | null; enquiry_text: string | null;
+  hero_image_url: string | null; hero_eyebrow: string | null; hero_headline: string | null; hero_subheading: string | null;
+  hero_cta_primary_label: string | null; hero_cta_primary_href: string | null;
+  hero_cta_secondary_label: string | null; hero_cta_secondary_href: string | null;
 };
 
 function SettingsAdmin() {
