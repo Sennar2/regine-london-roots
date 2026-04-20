@@ -360,6 +360,14 @@ export type Database = {
           enquiry_text: string | null
           favicon_url: string | null
           footer_text: string | null
+          hero_cta_primary_href: string | null
+          hero_cta_primary_label: string | null
+          hero_cta_secondary_href: string | null
+          hero_cta_secondary_label: string | null
+          hero_eyebrow: string | null
+          hero_headline: string | null
+          hero_image_url: string | null
+          hero_subheading: string | null
           hours_summary: string | null
           id: number
           logo_url: string | null
@@ -377,6 +385,14 @@ export type Database = {
           enquiry_text?: string | null
           favicon_url?: string | null
           footer_text?: string | null
+          hero_cta_primary_href?: string | null
+          hero_cta_primary_label?: string | null
+          hero_cta_secondary_href?: string | null
+          hero_cta_secondary_label?: string | null
+          hero_eyebrow?: string | null
+          hero_headline?: string | null
+          hero_image_url?: string | null
+          hero_subheading?: string | null
           hours_summary?: string | null
           id?: number
           logo_url?: string | null
@@ -394,6 +410,14 @@ export type Database = {
           enquiry_text?: string | null
           favicon_url?: string | null
           footer_text?: string | null
+          hero_cta_primary_href?: string | null
+          hero_cta_primary_label?: string | null
+          hero_cta_secondary_href?: string | null
+          hero_cta_secondary_label?: string | null
+          hero_eyebrow?: string | null
+          hero_headline?: string | null
+          hero_image_url?: string | null
+          hero_subheading?: string | null
           hours_summary?: string | null
           id?: number
           logo_url?: string | null
