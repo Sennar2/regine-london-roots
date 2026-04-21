@@ -1,41 +1,43 @@
 
 
-## Fix Reginè Pizzeria — Restore Working Build
+## Fix Reginè Pizzeria — Favicon and Deployment
 
-### What's broken
+### Current state
 
-The `vite.config.ts` was expanded into explicit plugin imports, but `nitro` is not an installed dependency. The build fails immediately with `Cannot find package 'nitro'`. The previous working config used `@lovable.dev/vite-tanstack-config` (which is installed in devDependencies) — that single wrapper handles all plugins internally.
+The project is correctly configured as a **TanStack Start SSR application** targeting Cloudflare Workers. The `vite.config.ts` is correct. The build works. The `public/favicon.ico` file exists.
 
-### The Vercel question
+### What is actually broken
 
-This project is a **TanStack Start SSR application** targeting Cloudflare Workers. It is not a static SPA. There is no `index.html` in the build output — the server renders pages on request. Vercel cannot deploy this without a custom adapter, and TanStack Start does not ship a Vercel adapter in v1.
+1. **Missing favicon link tag**: The root route's `head()` does not include a `<link rel="icon">` tag, so browsers request `/favicon.ico` but the HTML never declares it. Some browsers still find it by convention, but explicit declaration is best practice.
 
-**The correct deployment path is Lovable's Publish button** (top-right of the editor), which deploys to Cloudflare Workers with full SSR. This is already configured via `wrangler.jsonc`. A custom domain can be connected in Project Settings → Domains.
+2. **Vercel is the wrong deployment target**: This is an SSR application (server-rendered on every request via Cloudflare Workers). It does not produce a static `dist/index.html`. Vercel cannot serve it without a custom server adapter, and TanStack Start v1 does not ship one. The correct deployment is via the **Publish** button in the Lovable editor, which deploys to Cloudflare Workers with full SSR. All routes (`/`, `/about`, `/locations/[slug]`, `/admin`, etc.) work correctly when published this way.
 
-### Fix (1 file)
+### Changes
 
-**Restore `vite.config.ts`** to:
+**1. Add favicon link to `src/routes/__root.tsx`**
+
+Add to the `links` array in `head()`:
+
 ```ts
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-export default defineConfig();
+{ rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
 ```
 
-This single line restores: TanStack Start plugin, Tailwind CSS v4, path aliases, React plugin, and the Cloudflare Workers SSR adapter. No other files need changing.
+This ensures all pages declare the favicon and browsers resolve `/favicon.ico` correctly.
 
-### Deployment settings
+**No other files need changing.** The `vite.config.ts`, `package.json`, `wrangler.jsonc`, route files, and `public/favicon.ico` are all correct.
 
-- **Do not use Vercel.** This app requires a server runtime for SSR.
-- Click **Publish** in the Lovable editor to deploy.
+### Deployment
+
+- **Do not use Vercel.** This SSR app requires a server runtime.
+- Click **Publish** (top-right of editor) to deploy to Cloudflare Workers.
 - Production URL: `regine-london-roots.lovable.app`
-- To use a custom domain (e.g. `reginepizzeria.co.uk`): Project Settings → Domains
-
-### What stays the same
-
-All pages, admin dashboard, branding, database logic, routes, and content remain untouched. This is a single config file restore.
+- Custom domain: Project Settings, then Domains
 
 ### Deliverables
-1. **What was broken**: `vite.config.ts` referenced uninstalled `nitro/vite` package
-2. **File changed**: `vite.config.ts` (restored to `@lovable.dev/vite-tanstack-config`)
-3. **Deployment**: Use Lovable Publish (Cloudflare Workers SSR), not Vercel
-4. **Confirmation**: Build will succeed and all routes (`/`, `/about`, `/locations`, `/menus`, `/gallery`, `/contact`, `/admin`) will work with SSR
+
+1. **What was broken**: Missing favicon `<link>` tag in root head; Vercel is not compatible with this SSR architecture
+2. **Files changed**: `src/routes/__root.tsx` (add favicon link)
+3. **Deployment settings**: Use Lovable Publish (not Vercel)
+4. **Confirmation**: `/` works via Lovable hosting with full SSR
+5. **Confirmation**: `/favicon.ico` served from `public/` and declared in HTML head
 
