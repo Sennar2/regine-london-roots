@@ -1,46 +1,41 @@
 
 
-## Fix Reginè Pizzeria Build and Deployment
+## Fix Reginè Pizzeria — Restore Working Build
 
-### Problem
+### What's broken
 
-The `vite.config.ts` was accidentally replaced with a minimal React-only config, breaking the entire build. This project is a TanStack Start SSR app that requires the `@lovable.dev/vite-tanstack-config` plugin to build and run.
+The `vite.config.ts` was expanded into explicit plugin imports, but `nitro` is not an installed dependency. The build fails immediately with `Cannot find package 'nitro'`. The previous working config used `@lovable.dev/vite-tanstack-config` (which is installed in devDependencies) — that single wrapper handles all plugins internally.
 
-### What needs to happen
+### The Vercel question
 
-**1. Restore `vite.config.ts`**
+This project is a **TanStack Start SSR application** targeting Cloudflare Workers. It is not a static SPA. There is no `index.html` in the build output — the server renders pages on request. Vercel cannot deploy this without a custom adapter, and TanStack Start does not ship a Vercel adapter in v1.
 
-Replace the current broken config:
+**The correct deployment path is Lovable's Publish button** (top-right of the editor), which deploys to Cloudflare Workers with full SSR. This is already configured via `wrangler.jsonc`. A custom domain can be connected in Project Settings → Domains.
+
+### Fix (1 file)
+
+**Restore `vite.config.ts`** to:
 ```ts
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig();
 ```
 
-This single line restores: TanStack Start plugin, Tailwind CSS v4, path aliases (`@/*`), Cloudflare Workers adapter, React plugin, and all SSR plumbing.
+This single line restores: TanStack Start plugin, Tailwind CSS v4, path aliases, React plugin, and the Cloudflare Workers SSR adapter. No other files need changing.
 
-**2. No `vercel.json` needed**
+### Deployment settings
 
-This app deploys via Lovable's Publish button (top-right of editor). It runs on Cloudflare Workers with full SSR. A `vercel.json` would have no effect.
+- **Do not use Vercel.** This app requires a server runtime for SSR.
+- Click **Publish** in the Lovable editor to deploy.
+- Production URL: `regine-london-roots.lovable.app`
+- To use a custom domain (e.g. `reginepizzeria.co.uk`): Project Settings → Domains
 
-**3. Verify build works**
+### What stays the same
 
-After restoring the config, confirm `npm run build` succeeds.
+All pages, admin dashboard, branding, database logic, routes, and content remain untouched. This is a single config file restore.
 
-### Why not Vercel?
-
-- TanStack Start SSR requires a server runtime (Cloudflare Workers, Node.js serverless). A static `dist/` folder with `index.html` rewrites won't work — there is no `index.html` in the output.
-- The backend (Lovable Cloud / Supabase) is already integrated. Splitting frontend hosting adds latency and complexity for no benefit.
-- Lovable hosting includes SPA fallback, custom domains, and HTTPS out of the box.
-
-### Deployment instructions
-
-1. Click **Publish** in the top-right of the Lovable editor
-2. The app deploys to `regine-london-roots.lovable.app`
-3. Connect a custom domain (e.g. `reginepizzeria.co.uk`) via Project Settings → Domains
-
-### Files changed
-
-- `vite.config.ts` — restored to `@lovable.dev/vite-tanstack-config`
-
-One file. That's it.
+### Deliverables
+1. **What was broken**: `vite.config.ts` referenced uninstalled `nitro/vite` package
+2. **File changed**: `vite.config.ts` (restored to `@lovable.dev/vite-tanstack-config`)
+3. **Deployment**: Use Lovable Publish (Cloudflare Workers SSR), not Vercel
+4. **Confirmation**: Build will succeed and all routes (`/`, `/about`, `/locations`, `/menus`, `/gallery`, `/contact`, `/admin`) will work with SSR
 
