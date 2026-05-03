@@ -126,6 +126,7 @@ function LocationDetail() {
               {l.maps_link && <Button asChild variant="outline" className="w-full sm:w-auto"><a href={l.maps_link} target="_blank" rel="noreferrer">Get directions <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
               {l.booking_link && <Button asChild variant="gold" className="w-full sm:w-auto"><a href={l.booking_link} target="_blank" rel="noreferrer">Book a table</a></Button>}
               {l.hero_cta_label && l.hero_cta_href && <Button asChild variant="secondary" className="w-full sm:w-auto"><a href={l.hero_cta_href} target="_blank" rel="noreferrer">{l.hero_cta_label} <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
+              <WhatsAppCTA number={waNumber} url={waUrl} message={waMessage} label={waLabel} className="w-full sm:w-auto" />
             </div>
           </div>
           <div className="order-1 lg:order-2">
