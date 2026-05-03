@@ -243,6 +243,9 @@ export type Database = {
           slug: string
           ubereats_url: string | null
           updated_at: string
+          whatsapp_message: string | null
+          whatsapp_number: string | null
+          whatsapp_url: string | null
         }
         Insert: {
           address?: string | null
@@ -274,6 +277,9 @@ export type Database = {
           slug: string
           ubereats_url?: string | null
           updated_at?: string
+          whatsapp_message?: string | null
+          whatsapp_number?: string | null
+          whatsapp_url?: string | null
         }
         Update: {
           address?: string | null
@@ -305,6 +311,9 @@ export type Database = {
           slug?: string
           ubereats_url?: string | null
           updated_at?: string
+          whatsapp_message?: string | null
+          whatsapp_number?: string | null
+          whatsapp_url?: string | null
         }
         Relationships: []
       }
@@ -364,6 +373,81 @@ export type Database = {
           },
         ]
       }
+      site_popups: {
+        Row: {
+          background_url: string | null
+          countdown_enabled: boolean
+          countdown_target: string | null
+          created_at: string
+          dismissible: boolean
+          display_order: number
+          enabled: boolean
+          end_at: string | null
+          id: string
+          message: string | null
+          overlay_opacity: number
+          popup_type: string
+          primary_href: string | null
+          primary_label: string | null
+          secondary_href: string | null
+          secondary_label: string | null
+          start_at: string | null
+          subtitle: string | null
+          supporting_text: string | null
+          title: string | null
+          updated_at: string
+          whatsapp_cta_enabled: boolean
+        }
+        Insert: {
+          background_url?: string | null
+          countdown_enabled?: boolean
+          countdown_target?: string | null
+          created_at?: string
+          dismissible?: boolean
+          display_order?: number
+          enabled?: boolean
+          end_at?: string | null
+          id?: string
+          message?: string | null
+          overlay_opacity?: number
+          popup_type?: string
+          primary_href?: string | null
+          primary_label?: string | null
+          secondary_href?: string | null
+          secondary_label?: string | null
+          start_at?: string | null
+          subtitle?: string | null
+          supporting_text?: string | null
+          title?: string | null
+          updated_at?: string
+          whatsapp_cta_enabled?: boolean
+        }
+        Update: {
+          background_url?: string | null
+          countdown_enabled?: boolean
+          countdown_target?: string | null
+          created_at?: string
+          dismissible?: boolean
+          display_order?: number
+          enabled?: boolean
+          end_at?: string | null
+          id?: string
+          message?: string | null
+          overlay_opacity?: number
+          popup_type?: string
+          primary_href?: string | null
+          primary_label?: string | null
+          secondary_href?: string | null
+          secondary_label?: string | null
+          start_at?: string | null
+          subtitle?: string | null
+          supporting_text?: string | null
+          title?: string | null
+          updated_at?: string
+          whatsapp_cta_enabled?: boolean
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           address: string | null
@@ -385,10 +469,27 @@ export type Database = {
           hero_subheading: string | null
           hours_summary: string | null
           id: number
+          launch_background_url: string | null
+          launch_countdown_enabled: boolean
+          launch_date: string | null
+          launch_dismissible: boolean
+          launch_instagram_enabled: boolean
+          launch_mode_enabled: boolean
+          launch_primary_href: string | null
+          launch_primary_label: string | null
+          launch_secondary_href: string | null
+          launch_secondary_label: string | null
+          launch_subtitle: string | null
+          launch_title: string | null
+          launch_whatsapp_enabled: boolean
           logo_url: string | null
           map_embed_url: string | null
           social_links: Json | null
           updated_at: string
+          whatsapp_button_label: string | null
+          whatsapp_default_message: string | null
+          whatsapp_number: string | null
+          whatsapp_url: string | null
         }
         Insert: {
           address?: string | null
@@ -410,10 +511,27 @@ export type Database = {
           hero_subheading?: string | null
           hours_summary?: string | null
           id?: number
+          launch_background_url?: string | null
+          launch_countdown_enabled?: boolean
+          launch_date?: string | null
+          launch_dismissible?: boolean
+          launch_instagram_enabled?: boolean
+          launch_mode_enabled?: boolean
+          launch_primary_href?: string | null
+          launch_primary_label?: string | null
+          launch_secondary_href?: string | null
+          launch_secondary_label?: string | null
+          launch_subtitle?: string | null
+          launch_title?: string | null
+          launch_whatsapp_enabled?: boolean
           logo_url?: string | null
           map_embed_url?: string | null
           social_links?: Json | null
           updated_at?: string
+          whatsapp_button_label?: string | null
+          whatsapp_default_message?: string | null
+          whatsapp_number?: string | null
+          whatsapp_url?: string | null
         }
         Update: {
           address?: string | null
@@ -435,10 +553,27 @@ export type Database = {
           hero_subheading?: string | null
           hours_summary?: string | null
           id?: number
+          launch_background_url?: string | null
+          launch_countdown_enabled?: boolean
+          launch_date?: string | null
+          launch_dismissible?: boolean
+          launch_instagram_enabled?: boolean
+          launch_mode_enabled?: boolean
+          launch_primary_href?: string | null
+          launch_primary_label?: string | null
+          launch_secondary_href?: string | null
+          launch_secondary_label?: string | null
+          launch_subtitle?: string | null
+          launch_title?: string | null
+          launch_whatsapp_enabled?: boolean
           logo_url?: string | null
           map_embed_url?: string | null
           social_links?: Json | null
           updated_at?: string
+          whatsapp_button_label?: string | null
+          whatsapp_default_message?: string | null
+          whatsapp_number?: string | null
+          whatsapp_url?: string | null
         }
         Relationships: []
       }
