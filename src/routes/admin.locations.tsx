@@ -26,6 +26,7 @@ type Loc = {
   hero_cta_label: string | null; hero_cta_href: string | null;
   maps_link: string | null; booking_link: string | null;
   deliveroo_url: string | null; justeat_url: string | null; ubereats_url: string | null; click_collect_url: string | null;
+  whatsapp_number: string | null; whatsapp_url: string | null; whatsapp_message: string | null;
   is_active: boolean; is_featured: boolean; display_order: number;
   opening_hours: { day: string; hours: string }[] | null;
   gallery_image_urls: string[] | null;
@@ -186,6 +187,9 @@ function LocationsAdmin() {
                 <Field label="Deliveroo URL"><Input value={editing.deliveroo_url ?? ""} onChange={(e) => set("deliveroo_url", e.target.value)} placeholder="https://deliveroo.co.uk/…" /></Field>
                 <Field label="Just Eat URL"><Input value={editing.justeat_url ?? ""} onChange={(e) => set("justeat_url", e.target.value)} placeholder="https://just-eat.co.uk/…" /></Field>
                 <Field label="Uber Eats URL" className="sm:col-span-2"><Input value={editing.ubereats_url ?? ""} onChange={(e) => set("ubereats_url", e.target.value)} placeholder="https://ubereats.com/…" /></Field>
+                <Field label="WhatsApp number" hint="Overrides the site-wide WhatsApp for this location."><Input value={editing.whatsapp_number ?? ""} onChange={(e) => set("whatsapp_number", e.target.value)} placeholder="+44 7…" /></Field>
+                <Field label="WhatsApp URL"><Input value={editing.whatsapp_url ?? ""} onChange={(e) => set("whatsapp_url", e.target.value)} placeholder="https://wa.me/44…" /></Field>
+                <Field label="WhatsApp preset message" className="sm:col-span-2"><Textarea rows={2} value={editing.whatsapp_message ?? ""} onChange={(e) => set("whatsapp_message", e.target.value)} placeholder="Ciao Reginè Wandsworth…" /></Field>
               </TabsContent>
 
               <TabsContent value="visibility" className="mt-5 grid gap-4 sm:grid-cols-2">

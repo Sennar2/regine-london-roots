@@ -69,6 +69,12 @@ function SettingsAdmin() {
           </Field>
           <Field label="Map embed URL"><Input value={s.map_embed_url ?? ""} onChange={(e) => setS({ ...s, map_embed_url: e.target.value })} /></Field>
         </Card>
+        <Card title="WhatsApp ordering">
+          <Field label="WhatsApp number" ><Input value={s.whatsapp_number ?? ""} onChange={(e) => setS({ ...s, whatsapp_number: e.target.value })} placeholder="+44 7…" /></Field>
+          <Field label="WhatsApp URL (overrides number if set, e.g. wa.me/…)"><Input value={s.whatsapp_url ?? ""} onChange={(e) => setS({ ...s, whatsapp_url: e.target.value })} placeholder="https://wa.me/44…" /></Field>
+          <Field label="Default prefilled message"><Textarea rows={2} value={s.whatsapp_default_message ?? ""} onChange={(e) => setS({ ...s, whatsapp_default_message: e.target.value })} placeholder="Ciao Reginè, vorrei ordinare…" /></Field>
+          <Field label="Button label"><Input value={s.whatsapp_button_label ?? ""} onChange={(e) => setS({ ...s, whatsapp_button_label: e.target.value })} placeholder="Order via WhatsApp" /></Field>
+        </Card>
         <Card title="Homepage Hero">
           <Field label="Hero image">
             <div className="flex items-center gap-3">
