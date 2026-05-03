@@ -21,6 +21,7 @@ type S = {
   hero_image_url: string | null; hero_eyebrow: string | null; hero_headline: string | null; hero_subheading: string | null;
   hero_cta_primary_label: string | null; hero_cta_primary_href: string | null;
   hero_cta_secondary_label: string | null; hero_cta_secondary_href: string | null;
+  whatsapp_number: string | null; whatsapp_url: string | null; whatsapp_default_message: string | null; whatsapp_button_label: string | null;
 };
 
 function SettingsAdmin() {

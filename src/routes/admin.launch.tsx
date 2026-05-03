@@ -4,7 +4,7 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+
 import { FileUpload } from "@/components/admin/FileUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -128,5 +128,3 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
   );
 }
 
-// Re-export to use as a function in the file
-export function Textarea_unused() { return <Textarea />; }
