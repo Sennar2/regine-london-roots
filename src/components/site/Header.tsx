@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
+import { WhatsAppCTA } from "./WhatsAppCTA";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -13,8 +14,16 @@ const NAV = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-export function Header() {
+type WAProps = {
+  whatsapp_number?: string | null;
+  whatsapp_url?: string | null;
+  whatsapp_default_message?: string | null;
+  whatsapp_button_label?: string | null;
+};
+
+export function Header({ whatsapp }: { whatsapp?: WAProps }) {
   const [open, setOpen] = useState(false);
+  const wa = whatsapp ?? {};
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -34,7 +43,14 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-3">
+          <WhatsAppCTA
+            number={wa.whatsapp_number}
+            url={wa.whatsapp_url}
+            message={wa.whatsapp_default_message}
+            label={wa.whatsapp_button_label}
+            size="sm"
+          />
           <Button asChild size="sm" variant="gold">
             <Link to="/menus">View Menus</Link>
           </Button>
@@ -63,7 +79,14 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <Button asChild className="mt-3" variant="gold">
+            <WhatsAppCTA
+              number={wa.whatsapp_number}
+              url={wa.whatsapp_url}
+              message={wa.whatsapp_default_message}
+              label={wa.whatsapp_button_label}
+              className="mt-3"
+            />
+            <Button asChild className="mt-2" variant="gold">
               <Link to="/menus" onClick={() => setOpen(false)}>View Menus</Link>
             </Button>
           </div>

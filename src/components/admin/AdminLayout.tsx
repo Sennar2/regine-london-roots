@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { LayoutDashboard, MapPin, UtensilsCrossed, FileText, Image, Link as LinkIcon, Info, Settings, Mail, LogOut } from "lucide-react";
+import { LayoutDashboard, MapPin, UtensilsCrossed, FileText, Image, Link as LinkIcon, Info, Settings, Mail, LogOut, Rocket, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/site/Logo";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +9,8 @@ import { useAdminAuth } from "@/lib/admin-auth";
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 const NAV: NavItem[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/launch", label: "Launch Mode", icon: Rocket },
+  { to: "/admin/popups", label: "Popups", icon: Megaphone },
   { to: "/admin/locations", label: "Locations", icon: MapPin },
   { to: "/admin/menus", label: "Menus", icon: UtensilsCrossed },
   { to: "/admin/files", label: "Files", icon: FileText },

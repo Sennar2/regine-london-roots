@@ -19,11 +19,13 @@ import { Route as LocationsIndexRouteImport } from './routes/locations.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminPopupsRouteImport } from './routes/admin.popups'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminMenusRouteImport } from './routes/admin.menus'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLocationsRouteImport } from './routes/admin.locations'
 import { Route as AdminLinksRouteImport } from './routes/admin.links'
+import { Route as AdminLaunchRouteImport } from './routes/admin.launch'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminFilesRouteImport } from './routes/admin.files'
 import { Route as AdminAboutRouteImport } from './routes/admin.about'
@@ -78,6 +80,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/admin/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPopupsRoute = AdminPopupsRouteImport.update({
+  id: '/admin/popups',
+  path: '/admin/popups',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminMessagesRoute = AdminMessagesRouteImport.update({
   id: '/admin/messages',
   path: '/admin/messages',
@@ -101,6 +108,11 @@ const AdminLocationsRoute = AdminLocationsRouteImport.update({
 const AdminLinksRoute = AdminLinksRouteImport.update({
   id: '/admin/links',
   path: '/admin/links',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLaunchRoute = AdminLaunchRouteImport.update({
+  id: '/admin/launch',
+  path: '/admin/launch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminGalleryRoute = AdminGalleryRouteImport.update({
@@ -129,11 +141,13 @@ export interface FileRoutesByFullPath {
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/launch': typeof AdminLaunchRoute
   '/admin/links': typeof AdminLinksRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/menus': typeof AdminMenusRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/popups': typeof AdminPopupsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -149,11 +163,13 @@ export interface FileRoutesByTo {
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/launch': typeof AdminLaunchRoute
   '/admin/links': typeof AdminLinksRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/menus': typeof AdminMenusRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/popups': typeof AdminPopupsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -170,11 +186,13 @@ export interface FileRoutesById {
   '/admin/about': typeof AdminAboutRoute
   '/admin/files': typeof AdminFilesRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/launch': typeof AdminLaunchRoute
   '/admin/links': typeof AdminLinksRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/menus': typeof AdminMenusRoute
   '/admin/messages': typeof AdminMessagesRoute
+  '/admin/popups': typeof AdminPopupsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -192,11 +210,13 @@ export interface FileRouteTypes {
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
+    | '/admin/launch'
     | '/admin/links'
     | '/admin/locations'
     | '/admin/login'
     | '/admin/menus'
     | '/admin/messages'
+    | '/admin/popups'
     | '/admin/settings'
     | '/locations/$slug'
     | '/admin/'
@@ -212,11 +232,13 @@ export interface FileRouteTypes {
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
+    | '/admin/launch'
     | '/admin/links'
     | '/admin/locations'
     | '/admin/login'
     | '/admin/menus'
     | '/admin/messages'
+    | '/admin/popups'
     | '/admin/settings'
     | '/locations/$slug'
     | '/admin'
@@ -232,11 +254,13 @@ export interface FileRouteTypes {
     | '/admin/about'
     | '/admin/files'
     | '/admin/gallery'
+    | '/admin/launch'
     | '/admin/links'
     | '/admin/locations'
     | '/admin/login'
     | '/admin/menus'
     | '/admin/messages'
+    | '/admin/popups'
     | '/admin/settings'
     | '/locations/$slug'
     | '/admin/'
@@ -253,11 +277,13 @@ export interface RootRouteChildren {
   AdminAboutRoute: typeof AdminAboutRoute
   AdminFilesRoute: typeof AdminFilesRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
+  AdminLaunchRoute: typeof AdminLaunchRoute
   AdminLinksRoute: typeof AdminLinksRoute
   AdminLocationsRoute: typeof AdminLocationsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminMenusRoute: typeof AdminMenusRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminPopupsRoute: typeof AdminPopupsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   LocationsSlugRoute: typeof LocationsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -336,6 +362,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/popups': {
+      id: '/admin/popups'
+      path: '/admin/popups'
+      fullPath: '/admin/popups'
+      preLoaderRoute: typeof AdminPopupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/messages': {
       id: '/admin/messages'
       path: '/admin/messages'
@@ -369,6 +402,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/links'
       fullPath: '/admin/links'
       preLoaderRoute: typeof AdminLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/launch': {
+      id: '/admin/launch'
+      path: '/admin/launch'
+      fullPath: '/admin/launch'
+      preLoaderRoute: typeof AdminLaunchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/gallery': {
@@ -405,11 +445,13 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAboutRoute: AdminAboutRoute,
   AdminFilesRoute: AdminFilesRoute,
   AdminGalleryRoute: AdminGalleryRoute,
+  AdminLaunchRoute: AdminLaunchRoute,
   AdminLinksRoute: AdminLinksRoute,
   AdminLocationsRoute: AdminLocationsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminMenusRoute: AdminMenusRoute,
   AdminMessagesRoute: AdminMessagesRoute,
+  AdminPopupsRoute: AdminPopupsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   LocationsSlugRoute: LocationsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,

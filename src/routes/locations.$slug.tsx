@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Phone, Mail, MapPin, ExternalLink, Clock, ArrowLeft, ShoppingBag } from "lucide-react";
 import { PublicLayout } from "@/components/site/PublicLayout";
 import { Button } from "@/components/ui/button";
+import { WhatsAppCTA } from "@/components/site/WhatsAppCTA";
 import { supabase } from "@/integrations/supabase/client";
 import locationFallback from "@/assets/location-wandsworth.jpg";
 
@@ -14,6 +15,7 @@ type Loc = {
   gallery_image_urls: string[] | null; opening_hours: { day: string; hours: string }[] | null;
   maps_link: string | null; booking_link: string | null;
   deliveroo_url: string | null; justeat_url: string | null; ubereats_url: string | null; click_collect_url: string | null;
+  whatsapp_number: string | null; whatsapp_url: string | null; whatsapp_message: string | null;
 };
 
 export const Route = createFileRoute("/locations/$slug")({
@@ -85,9 +87,19 @@ function LocationDetail() {
   const { location: l } = Route.useLoaderData();
   const hero = l.hero_image_url ?? locationFallback;
   const [menus, setMenus] = useState<Menu[]>([]);
+  const [siteWa, setSiteWa] = useState<{ number: string | null; url: string | null; message: string | null; label: string | null } | null>(null);
   useEffect(() => {
     supabase.from("menus").select("id,title,pdf_url,external_url,category").eq("is_active", true).or(`location_id.eq.${l.id},location_id.is.null`).order("display_order").then(({ data }) => setMenus((data as Menu[] | null) ?? []));
+    supabase.from("site_settings").select("whatsapp_number,whatsapp_url,whatsapp_default_message,whatsapp_button_label").eq("id", 1).maybeSingle().then(({ data }) => {
+      const d = data as Record<string, string | null> | null;
+      if (d) setSiteWa({ number: d.whatsapp_number, url: d.whatsapp_url, message: d.whatsapp_default_message, label: d.whatsapp_button_label });
+    });
   }, [l.id]);
+
+  const waNumber = l.whatsapp_number ?? siteWa?.number ?? null;
+  const waUrl = l.whatsapp_url ?? siteWa?.url ?? null;
+  const waMessage = l.whatsapp_message ?? siteWa?.message ?? null;
+  const waLabel = siteWa?.label ?? "Order via WhatsApp";
 
   const orderLinks = [
     { label: "Order on Deliveroo", url: l.deliveroo_url },
@@ -114,6 +126,7 @@ function LocationDetail() {
               {l.maps_link && <Button asChild variant="outline" className="w-full sm:w-auto"><a href={l.maps_link} target="_blank" rel="noreferrer">Get directions <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
               {l.booking_link && <Button asChild variant="gold" className="w-full sm:w-auto"><a href={l.booking_link} target="_blank" rel="noreferrer">Book a table</a></Button>}
               {l.hero_cta_label && l.hero_cta_href && <Button asChild variant="secondary" className="w-full sm:w-auto"><a href={l.hero_cta_href} target="_blank" rel="noreferrer">{l.hero_cta_label} <ExternalLink className="ml-1 h-4 w-4" /></a></Button>}
+              <WhatsAppCTA number={waNumber} url={waUrl} message={waMessage} label={waLabel} className="w-full sm:w-auto" />
             </div>
           </div>
           <div className="order-1 lg:order-2">
